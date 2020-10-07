@@ -14,5 +14,8 @@
     "colors": "^1.4.0",
     "jsdom": "^16.4.0",
     "node-fetch": "^2.6.1"
+  },
+  "bin": {
+    "site-tester": "./site-tester.js"
   }
 }

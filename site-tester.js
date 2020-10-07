@@ -1,3 +1,4 @@
+#!/usr/bin/env node --no-warnings
 const colors = require("colors/safe");
 const fetch = require("node-fetch");
 const { JSDOM } = require("jsdom");
