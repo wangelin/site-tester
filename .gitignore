@@ -1,3 +1,5 @@
 node_modules
 sites/*.js
 !sites/*-sadab.js
+logs
+*~

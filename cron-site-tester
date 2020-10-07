@@ -1,0 +1,9 @@
+#!/bin/bash
+
+site-tester > logs/output.log 2>logs/error.log
+cat logs/output.log logs/error.log > logs/combined.log
+
+if [ -s logs/error.log ] ; then
+    echo Sites are down: | cat - ./logs/error.log | mail -s "Warning: Sites are down" -a "From: Sandberg Analytical <no-reply@sadab.se>" pwangelin@gmail.com 
+fi
+
