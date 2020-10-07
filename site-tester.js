@@ -21,7 +21,8 @@ const ok = (bool) =>
 
 async function testSites() {
   let results = [];
-  for (const [i, { disabled, name, site, api }] of sites.entries()) {
+  for (let [i, { disable, disabled, name, site, api }] of sites.entries()) {
+    if (disable !== undefined && disabled === undefined) disabled = disable;
     let col = " ";
     let result = { name };
     if (disabled) {
@@ -30,7 +31,7 @@ async function testSites() {
           3
         )}skipping ${name}\n`
       );
-      results.skipped = true;
+      result.skipped = true;
       results.push(result);
       continue;
     }
@@ -116,7 +117,8 @@ async function testSites() {
     process.stdout.write("\n".repeat(i < sites.length - 1 ? 2 : 1));
     results.push(result);
   }
-  console.log({ results });
+  console.log("Result:");
+  console.log(results);
   const errors = sites
     .map(({ name, site, api }, i) => {
       let value = { name };
@@ -125,7 +127,18 @@ async function testSites() {
       return value;
     })
     .filter((x) => x.site || x.api);
-  console.log({ errors });
+  const errorString = errors
+    .reduce((result, { name, site, api }) => {
+      return [
+        ...result,
+        `${name.padEnd(15)}` +
+          [site ? "site DOWN!" : "", api ? "api DOWN!" : ""]
+            .map((x) => x.padEnd(15))
+            .join(""),
+      ];
+    }, [])
+    .join("\n");
+  if (errorString.length > 0) console.error(errorString);
   process.exit(); // wont quit otherwise
 }
 
